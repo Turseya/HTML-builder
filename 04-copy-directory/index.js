@@ -18,6 +18,5 @@ fs.readdir(pathToDir,{withFileTypes: true}, (err, data) => {
     }).catch(err => {
       console.log(err);
     });
-
   });
 });
