@@ -6,19 +6,14 @@ const fsPromises = require('fs').promises;
 
 fs.mkdir(pathToEndDir, {recursive: true}, err => {
   if (err) throw err;
-  const stream = fs.createWriteStream(`${pathToEndDir}/style.css`);
   fs.readdir(pathToStartDir, {withFileTypes: true}, (err, data) => {
     if (err) throw err;
 
     data.forEach(file => {
       if (path.extname(file.name) === '.css') {
-        const readline = require('readline').createInterface({
-          input: fs.createReadStream(`${pathToStartDir}/${file.name}`),
-          output: stream
-        });
-
-        readline.on('line', data => {
-          stream.write(data);
+        const content = fs.readFileSync(`${pathToStartDir}/${file.name}`).toString();
+        fs.appendFile(`${pathToEndDir}/style.css`, content, err => {
+          if (err) throw err;
         });
       }
     });
